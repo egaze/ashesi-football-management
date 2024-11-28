@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Matches {
     Team teamA;
     Team teamB;
@@ -37,7 +39,11 @@ public class Matches {
         this.date = date;
     }
 
-    public void scheduleMatch(Team teamA, Team teamB, String matchType, String date, String time, String status) {
+    public void updateMatch(Matches match) {
+        // should also update leaderboard
+    }
 
+    public void createFixtures(List<Team> teams){
+        // method for algorithm to create fixtures for the entire season
     }
 }
