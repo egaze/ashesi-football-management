@@ -1,3 +1,3 @@
 public interface UpdateMatchInterface {
-    public void updateMatch(Match match);
+    public void updateMatchGoals(int goalsA, int goalsB);
 }

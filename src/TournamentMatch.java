@@ -17,22 +17,16 @@ public class TournamentMatch extends Match implements UpdateMatchInterface{
         this.teamBGoals = 0;
     }
 
-    public TournamentMatch() {}// Default Constructor }
+    public TournamentMatch() {}// Default Constructor
 
-    public void setTeamAGoals(int goals) {
-        super.setTeamAGoals(goals);
-    }
-
-    public void setTeamBGoals(int goals) {
-        super.setTeamBGoals(goals);
-    }
 
     public void setStatus(String status) {
         super.setStatus(status);
     }
 
     @Override
-    public void updateMatch(Match match) {
+    public void updateMatchGoals(int goalsA, int goalsB) {
+        super.updateMatchGoals(goalsA, goalsB);
         // update match details and make operations on leaderboard
     }
 
@@ -40,8 +34,8 @@ public class TournamentMatch extends Match implements UpdateMatchInterface{
         super.postponeMatch(date);
     }
 
-    public void createFixtures(List<Team> teams){
-        super.createFixtures(teams);
+    public static void createFixtures(List<Team> teams){
+        createFixtures(teams);
         // method for algorithm to create fixtures for the entire season
     }
 }

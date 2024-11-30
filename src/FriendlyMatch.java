@@ -18,14 +18,10 @@ public class FriendlyMatch extends Match implements UpdateMatchInterface{
 
     public FriendlyMatch() {}// Default Constructor }
 
-    public void setTeamAGoals(int goals) {
-        super.setTeamAGoals(goals);
+    @Override
+    public void updateMatchGoals(int goalsA, int goalsB) {
+        super.updateMatchGoals(goalsA, goalsB);
     }
-
-    public void setTeamBGoals(int goals) {
-        super.setTeamBGoals(goals);
-    }
-
 
     public void setStatus(String status) {
         super.setStatus(status);
@@ -39,8 +35,8 @@ public class FriendlyMatch extends Match implements UpdateMatchInterface{
         // should also update leaderboard
     }
 
-    public void createFixtures(List<Team> teams){
-        super.createFixtures(teams);
+    public static void createFixtures(List<Team> teams){
+        createFixtures(teams);
         // method for algorithm to create fixtures for the entire season
     }
 }
