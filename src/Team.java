@@ -1,18 +1,19 @@
 import java.util.List;
+import java.util.Map;
 
 public class Team implements DisplayInfoInterface{
-    String name;
-    String coachName;
-    List<Player> players;
-    int goalsFor;
-    int goalAgainst;
-    int goalDifference;
-    List<String> fixtures;
-    int points;
-    int numberOfTransfers;
-    // Map<Team, Players>
+    private String name;
+    private String coachName;
+    private List<Player> players;
+    private int goalsFor;
+    private int goalAgainst;
+    private int goalDifference;
+    private List<String> teamFixtures;
+    private int points;
+    private int numberOfTransfers;
+    private Map<Team, List<Player>> teamMapping;
 
-    public String displayTeamFixtures(){return null;}
+    public void displayTeamFixtures(){}
 
     public List<Player> getPlayers() {
         return players;

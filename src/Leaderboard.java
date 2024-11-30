@@ -8,6 +8,7 @@ public class Leaderboard {
     }
 
     public String getTopTeam() {
+        return null;
         // return the top team in the league
     }
 
