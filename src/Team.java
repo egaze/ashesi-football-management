@@ -1,8 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class Team implements DisplayInfoInterface{
+public class Team implements DisplayInfoInterface {
     private String name;
     private String coachName;
     private List<Player> players;
@@ -14,8 +13,6 @@ public class Team implements DisplayInfoInterface{
     private int draws;
     private List<String> teamFixtures;
     private int points;
-    private int numberOfTransfers;
-    private Map<Team, List<Player>> teamMapping;
 
     public Team(String name, String coachName) {
         this.name = name;
@@ -26,34 +23,45 @@ public class Team implements DisplayInfoInterface{
         this.wins = 0;
         this.losses = 0;
         this.draws = 0;
-        this.goalDifference = this.goalsFor - this.goalAgainst;
+        this.goalDifference = 0;
         this.teamFixtures = new ArrayList<>();
+        this.points = 0;
     }
 
     public String getName() {
         return name;
     }
 
-    public void addWin(){
+    public void addWin() {
         this.wins++;
+        this.points += 3;
     }
 
-    public void addLoss(){
+    public void addLoss() {
         this.losses++;
     }
 
-    public void addDraw(){
+    public void addDraw() {
         this.draws++;
+        this.points += 1;
     }
 
-    public void displayTeamFixtures(){}
+    public String displayTeamFixtures() {
+        return String.join("\n", teamFixtures);
+    }
 
     public void addGoalsFor(int goals) {
         this.goalsFor += goals;
+        updateGoalDifference();
     }
 
     public void addGoalAgainst(int goals) {
         this.goalAgainst += goals;
+        updateGoalDifference();
+    }
+
+    private void updateGoalDifference() {
+        this.goalDifference = this.goalsFor - this.goalAgainst;
     }
 
     public void setTeamPlayers(List<Player> players) {
@@ -76,20 +84,38 @@ public class Team implements DisplayInfoInterface{
         return goalDifference;
     }
 
-    public int getPoints(){
+    public int getPoints() {
         return points;
     }
 
+    public int getWins() {
+        return wins;
+    }
+
+    public int getLosses() {
+        return losses;
+    }
+
+    public int getDraws() {
+        return draws;
+    }
+
+    public int getPlayed() {
+        return wins + losses + draws;
+    }
+
     public static void transfer(Team t1, Team t2, String transferPlayer) {
-        t1.removePlayer(transferPlayer);
-        // method to transfer a person from one team to another
+        Player player = t1.removePlayer(transferPlayer);
+        if (player != null) {
+            t2.addPlayer(player);
+            player.setTeam(t2);
+        }
     }
 
     public Player removePlayer(String playerName) {
-        for (Player player : players) {
-            if (player.getName().equals(playerName)) {
-                players.remove(player);
-                return player; // Return the removed player
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getName().equals(playerName)) {
+                return players.remove(i);
             }
         }
         return null;
@@ -99,18 +125,20 @@ public class Team implements DisplayInfoInterface{
         players.add(player);
     }
 
-
+    @Override
     public String displayInfo() {
-        return null;
+        return String.format("Team: %s\nCoach: %s\nPlayers: %d\nPoints: %d", name, coachName, players.size(), points);
     }
 
-    public void displayTeamList(Team team) {}
-
-    public static void removeTeam(Team team) {
-        // Remove a team from the league
+    public String displayTeamList() {
+        StringBuilder teamList = new StringBuilder();
+        for (Player player : players) {
+            teamList.append(player.displayInfo()).append("\n");
+        }
+        return teamList.toString();
     }
 
-    public static void addTeam(Team team) {
-        // Add a team to the league
+    public void addFixture(String fixture) {
+        teamFixtures.add(fixture);
     }
 }

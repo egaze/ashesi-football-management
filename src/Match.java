@@ -56,9 +56,9 @@ public abstract class Match implements UpdateMatchInterface{
     }
 
 
-    public static void createFixtures(List<Team> teams) {
+    public static List<String> createFixtures(List<Team> teams) {
         boolean isOdd = teams.size() % 2 != 0;
-        if (isOdd) { teams.add(new Team("DUMMY", "N/A"));}
+        if (isOdd) { teams.add(new Team("DUMMY", "N/A")); }
 
         List<String> fixtures = new ArrayList<>();
 
@@ -73,8 +73,11 @@ public abstract class Match implements UpdateMatchInterface{
                 }
             }
         }
+
         // Display all fixtures
         System.out.println("Fixtures:");
         fixtures.forEach(x -> System.out.println(x));
+
+        return fixtures;
     }
 }

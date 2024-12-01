@@ -1,21 +1,49 @@
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 public class Leaderboard {
-    public static String displayLeaderboard(){
+    private List<Team> teams;
 
-        // Could sort by alphabetical order if all points are zero at start
-        // Meant to get number of points, goal difference, goalsFor,
-        // goalsAgainst, wins, draws, losses, but not sort on wins, losses, draws
+    public Leaderboard(List<Team> teams) {
+        this.teams = new ArrayList<>(teams);
+    }
 
-        return null;
+    public String displayLeaderboard() {
+        sortTeams();
+        StringBuilder leaderboard = new StringBuilder("Pos\tTeam\tP\tW\tD\tL\tGF\tGA\tGD\tPts\n");
+        for (int i = 0; i < teams.size(); i++) {
+            Team team = teams.get(i);
+            leaderboard.append(String.format("%d\t%s\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
+                    i + 1, team.getName(), team.getPlayed(), team.getWins(), team.getDraws(),
+                    team.getLosses(), team.getGoalsFor(), team.getGoalAgainst(),
+                    team.getGoalDifference(), team.getPoints()));
+        }
+        return leaderboard.toString();
     }
 
     public String getTopTeam() {
-        return null;
-        // return the top team in the league
+        sortTeams();
+        return teams.isEmpty() ? "No teams" : teams.get(0).getName();
     }
 
     public void updateLeaderboard() {
-        // Take values of all teams and use to calculate values on leaderboard
-        // take values of a leaderboard .csv file and displays them
-        // should take values from match
+        sortTeams();
+    }
+
+    private void sortTeams() {
+        Collections.sort(teams, new Comparator<Team>() {
+            @Override
+            public int compare(Team a, Team b) {
+                if (b.getPoints() != a.getPoints()) {
+                    return b.getPoints() - a.getPoints();
+                }
+                if (b.getGoalDifference() != a.getGoalDifference()) {
+                    return b.getGoalDifference() - a.getGoalDifference();
+                }
+                return b.getGoalsFor() - a.getGoalsFor();
+            }
+        });
     }
 }

@@ -34,8 +34,8 @@ public class TournamentMatch extends Match implements UpdateMatchInterface{
         super.postponeMatch(date);
     }
 
-    public static void createFixtures(List<Team> teams){
-        createFixtures(teams);
-        // method for algorithm to create fixtures for the entire season
-    }
+//    public static void createFixtures(List<Team> teams){
+//        createFixtures(teams);
+//        // method for algorithm to create fixtures for the entire season
+//    }
 }

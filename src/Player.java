@@ -17,13 +17,18 @@ public class Player implements DisplayInfoInterface {
         return name;
     }
 
-    public String getTeamName(){
-        //  get the team the player is in from Team class
-
-        return null;
+    public String getTeamName() {
+        return team.getName();
     }
 
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+
+    @Override
     public String displayInfo() {
-        return null;
+        return String.format("Name: %s, Age: %d, Jersey: %d, Position: %s, Team: %s",
+                name, age, jerseyNumber, position, getTeamName());
     }
 }

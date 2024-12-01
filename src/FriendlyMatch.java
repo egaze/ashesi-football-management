@@ -35,8 +35,8 @@ public class FriendlyMatch extends Match implements UpdateMatchInterface{
         // should also update leaderboard
     }
 
-    public static void createFixtures(List<Team> teams){
-        createFixtures(teams);
-        // method for algorithm to create fixtures for the entire season
-    }
+//    public static void createFixtures(List<Team> teams){
+//        createFixtures(teams);
+//        // method for algorithm to create fixtures for the entire season
+//    }
 }
