@@ -12,10 +12,10 @@ public class Leaderboard {
 
     public String displayLeaderboard() {
         sortTeams();
-        StringBuilder leaderboard = new StringBuilder("Pos\tTeam\tP\tW\tD\tL\tGF\tGA\tGD\tPts\n");
+        StringBuilder leaderboard = new StringBuilder("Pos\t\t\tTeam\t\t\tP\tW\tD\tL\tGF\tGA\tGD\tPts\n");
         for (int i = 0; i < teams.size(); i++) {
             Team team = teams.get(i);
-            leaderboard.append(String.format("%d\t%s\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
+            leaderboard.append(String.format("%d\t%14s\t\t\t%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\n",
                     i + 1, team.getName(), team.getPlayed(), team.getWins(), team.getDraws(),
                     team.getLosses(), team.getGoalsFor(), team.getGoalAgainst(),
                     team.getGoalDifference(), team.getPoints()));
