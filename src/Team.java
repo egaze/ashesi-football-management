@@ -125,17 +125,41 @@ public class Team implements DisplayInfoInterface {
         players.add(player);
     }
 
+    public void updatePoints() {
+        this.points = (wins * 3) + draws;
+    }
+
     @Override
     public String displayInfo() {
-        return String.format("Team: %s\nCoach: %s\nPlayers: %d\nPoints: %d", name, coachName, players.size(), points);
+        return String.format("Team: %s, Coach: %s, Players: %d, Points: %d, GF: %d, GA: %d, GD: %d",
+                name, coachName, players.size(), points, goalsFor, goalAgainst, goalDifference);
     }
 
     public String displayTeamList() {
-        StringBuilder teamList = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("Team: %s\n", name));
         for (Player player : players) {
-            teamList.append(player.displayInfo()).append("\n");
+            sb.append(player.displayInfo()).append("\n");
         }
-        return teamList.toString();
+        return sb.toString();
+    }
+
+    public String toCSV() {
+        return String.format("%s,%s,%d,%d,%d,%d,%d,%d,%d,%d",
+                name, coachName, goalsFor, goalAgainst, goalDifference, wins, losses, draws, points, players.size());
+    }
+
+    public static Team fromCSV(String csvLine) {
+        String[] parts = csvLine.split(",");
+        Team team = new Team(parts[0], parts[1]);
+        team.goalsFor = Integer.parseInt(parts[2]);
+        team.goalAgainst = Integer.parseInt(parts[3]);
+        team.goalDifference = Integer.parseInt(parts[4]);
+        team.wins = Integer.parseInt(parts[5]);
+        team.losses = Integer.parseInt(parts[6]);
+        team.draws = Integer.parseInt(parts[7]);
+        team.points = Integer.parseInt(parts[8]);
+        return team;
     }
 
     public void addFixture(String fixture) {

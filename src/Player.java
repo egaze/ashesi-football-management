@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Player implements DisplayInfoInterface {
     private String name;
     private int age;
@@ -21,14 +23,27 @@ public class Player implements DisplayInfoInterface {
         return team.getName();
     }
 
+    public Team getTeam() {
+        return this.team;
+    }
+
     public void setTeam(Team team) {
         this.team = team;
     }
 
-
     @Override
     public String displayInfo() {
         return String.format("Name: %s, Age: %d, Jersey: %d, Position: %s, Team: %s",
-                name, age, jerseyNumber, position, getTeamName());
+                name, age, jerseyNumber, position, team.getName());
+    }
+
+    public String toCSV() {
+        return String.format("%s,%d,%d,%s,%s", name, age, jerseyNumber, position, team.getName());
+    }
+
+    public static Player fromCSV(String csvLine, List<Team> teams) {
+        String[] parts = csvLine.split(",");
+        Team team = teams.stream().filter(t -> t.getName().equals(parts[4])).findFirst().orElse(null);
+        return new Player(parts[0], Integer.parseInt(parts[1]), Integer.parseInt(parts[2]), parts[3], team);
     }
 }

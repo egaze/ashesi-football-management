@@ -1,27 +1,24 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Match implements UpdateMatchInterface{
-    private Team teamA;
-    private Team teamB;// Friendly or tournament
-    private String date;
-    private String time;
-    private String status; // played, not played, scheduled, postponed
-    private int teamAMatchGoals;
-    private int teamBMatchGoals;
+public abstract class Match implements UpdateMatchInterface {
+    protected Team teamA;
+    protected Team teamB;
+    protected String date;
+    protected String time;
+    protected String status;
+    protected int teamAGoals;
+    protected int teamBGoals;
 
     public Match(Team teamA, Team teamB, String date, String time) {
-        // remove matchType
         this.teamA = teamA;
         this.teamB = teamB;
         this.date = date;
         this.time = time;
-        this.status = "uncompleted";
-        this.teamAMatchGoals = 0;
-        this.teamBMatchGoals = 0;
+        this.status = "Scheduled";
+        this.teamAGoals = 0;
+        this.teamBGoals = 0;
     }
-
-    public Match() {}// Default Constructor }
 
     public void setStatus(String status) {
         this.status = status;
@@ -29,55 +26,69 @@ public abstract class Match implements UpdateMatchInterface{
 
     @Override
     public void updateMatchGoals(int goalsA, int goalsB) {
-        this.teamAMatchGoals = goalsA;
-        this.teamBMatchGoals = goalsB;
+        this.teamAGoals = goalsA;
+        this.teamBGoals = goalsB;
         this.teamA.addGoalsFor(goalsA);
         this.teamA.addGoalAgainst(goalsB);
         this.teamB.addGoalsFor(goalsB);
         this.teamB.addGoalAgainst(goalsA);
 
-        if (teamAMatchGoals > teamBMatchGoals) {
+        if (teamAGoals > teamBGoals) {
             this.teamA.addWin();
-            this.teamB.addLoss();}
-        else if (teamBMatchGoals > teamAMatchGoals) {
+            this.teamB.addLoss();
+        } else if (teamBGoals > teamAGoals) {
             this.teamB.addWin();
             this.teamA.addLoss();
-            }
-        else if (teamBMatchGoals == teamAMatchGoals) {
-            this.teamB.addDraw();
+        } else {
             this.teamA.addDraw();
+            this.teamB.addDraw();
         }
-        // update match details and make operations on leaderboard
+
+        this.status = "Completed";
+        updateTeamStats();
     }
 
-    public void postponeMatch(String date) { // change date of match
-        this.date = date;
-        this.status = "postponed";
+    protected abstract void updateTeamStats();
+
+    public void postponeMatch(String newDate) {
+        this.date = newDate;
+        this.status = "Postponed";
     }
 
+    public String displayInfo() {
+        return String.format("%s vs %s on %s at %s (%s)", teamA.getName(), teamB.getName(), date, time, status);
+    }
 
     public static List<String> createFixtures(List<Team> teams) {
-        boolean isOdd = teams.size() % 2 != 0;
-        if (isOdd) { teams.add(new Team("DUMMY", "N/A")); }
-
         List<String> fixtures = new ArrayList<>();
-
         for (int i = 0; i < teams.size(); i++) {
             for (int j = i + 1; j < teams.size(); j++) {
                 Team team1 = teams.get(i);
                 Team team2 = teams.get(j);
-
-                if (!(team1.getName().equals("DUMMY")) && !(team2.getName().equals("DUMMY"))) {
-                    fixtures.add(team1.getName() + " vs " + team2.getName());
-                    fixtures.add(team2.getName() + " vs " + team1.getName());
-                }
+                fixtures.add(team1.getName() + " vs " + team2.getName());
+                fixtures.add(team2.getName() + " vs " + team1.getName());
             }
         }
-
-        // Display all fixtures
-        System.out.println("Fixtures:");
-        fixtures.forEach(x -> System.out.println(x));
-
         return fixtures;
+    }
+
+    public String toCSV() {
+        return String.format("%s,%s,%s,%s,%s,%d,%d,%s",
+                teamA.getName(), teamB.getName(), date, time, status, teamAGoals, teamBGoals, getClass().getSimpleName());
+    }
+
+    public static Match fromCSV(String csvLine, List<Team> teams) {
+        String[] parts = csvLine.split(",");
+        Team teamA = teams.stream().filter(t -> t.getName().equals(parts[0])).findFirst().orElse(null);
+        Team teamB = teams.stream().filter(t -> t.getName().equals(parts[1])).findFirst().orElse(null);
+        Match match;
+        if (parts[7].equals("FriendlyMatch")) {
+            match = new FriendlyMatch(teamA, teamB, parts[2], parts[3]);
+        } else {
+            match = new TournamentMatch(teamA, teamB, parts[2], parts[3]);
+        }
+        match.setStatus(parts[4]);
+        match.updateMatchGoals(Integer.parseInt(parts[5]), Integer.parseInt(parts[6]));
+        return match;
     }
 }
