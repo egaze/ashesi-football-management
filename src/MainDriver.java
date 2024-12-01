@@ -1,7 +1,5 @@
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class MainDriver {
         private static List<Team> teamList = new ArrayList<>();
@@ -58,7 +56,7 @@ public class MainDriver {
         }
 
         private static void displayMenu() {
-                System.out.println("\n--- Football League Manager ---");
+                System.out.println("\n==== Football League Manager ====");
                 System.out.println("1. Display Leaderboard");
                 System.out.println("2. Display Team Information");
                 System.out.println("3. Display Player Information");
@@ -98,10 +96,18 @@ public class MainDriver {
         }
 
         private static Team selectTeam() {
-                System.out.print("Enter team name: ");
-                String teamName = scanner.nextLine();
+                System.out.println("======Teams available======");
+                int count = 1;
+                Map<Integer, String> teamNumbers = new HashMap<>();
                 for (Team team : teamList) {
-                        if (team.getName().equalsIgnoreCase(teamName)) {
+                        teamNumbers.put(count, team.getName());
+                        System.out.println(count+"--"+team.getName());
+                        count++;
+                }
+                System.out.print("Select the team number: ");
+                int teamNumber = scanner.nextInt();
+                for (Team team : teamList) {
+                        if (team.getName().equalsIgnoreCase(teamNumbers.get(teamNumber))) {
                                 return team;
                         }
                 }
