@@ -23,9 +23,9 @@ public class Leaderboard {
         return leaderboard.toString();
     }
 
-    public String getTopTeam() {
+    public Team getTopTeam() {
         sortTeams();
-        return teams.isEmpty() ? "No teams" : teams.get(0).getName();
+        return teams.isEmpty() ? null : teams.get(0);
     }
 
     public void updateLeaderboard() {

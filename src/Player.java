@@ -1,6 +1,6 @@
 import java.util.List;
 
-public class Player implements DisplayInfoInterface {
+public class Player implements PlayerTeamInterface {
     private String name;
     private int age;
     private int jerseyNumber;

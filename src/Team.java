@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Team implements DisplayInfoInterface {
+public class Team implements PlayerTeamInterface {
     private String name;
     private String coachName;
     private List<Player> players;
