@@ -117,6 +117,7 @@ public class MainDriver {
 
         private static Player selectPlayer(Team team) {
                 System.out.print("Enter player name: ");
+                scanner.nextLine(); // consume new line
                 String playerName = scanner.nextLine();
                 for (Player player : team.getPlayers()) {
                         if (player.getName().equalsIgnoreCase(playerName)) {

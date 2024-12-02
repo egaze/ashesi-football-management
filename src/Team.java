@@ -104,13 +104,13 @@ public class Team implements DisplayInfoInterface {
         return wins + losses + draws;
     }
 
-    public static void transfer(Team t1, Team t2, String transferPlayer) {
-        Player player = t1.removePlayer(transferPlayer);
-        if (player != null) {
-            t2.addPlayer(player);
-            player.setTeam(t2);
-        }
-    }
+//    public static void transfer(Team t1, Team t2, String transferPlayer) {
+//        Player player = t1.removePlayer(transferPlayer);
+//        if (player != null) {
+//            t2.addPlayer(player);
+//            player.setTeam(t2);
+//        }
+//    }
 
     public Player removePlayer(String playerName) {
         for (int i = 0; i < players.size(); i++) {
